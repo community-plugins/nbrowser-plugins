@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# duckduckgo parameters : https://duckduckgo.com/params
+nbrowser_search(){
+  case $1 in
+    "-pic"|"-p")  shift; echo "https://duckduckgo.com/?k1=-1&kae=d&k5=2&kh=1&kd=-1&iax=images&ia=images&q=$*" ;;
+    "-vid"|"-v")  shift; echo "https://duckduckgo.com/?k1=-1&kae=d&k5=2&kh=1&kd=-1&iax=videos&ia=videos&q=$*" ;;
+    "-news"|"-n") shift; echo "https://duckduckgo.com/?k1=-1&kae=d&k5=2&kh=1&kd=-1&iar=news&ia=news&q=$*" ;;
+    *) echo "https://duckduckgo.com/?k1=-1&kae=d&k5=2&kh=1&kd=-1&q=$*" ;;
+  esac
+}
