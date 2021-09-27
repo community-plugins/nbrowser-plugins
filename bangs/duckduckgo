@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+nbrowser_bang(){
+  # check if ddgr installed in your system
+  has 'ddgr' || _pemx "'ddgr' is no installed in your system!"
+  has 'jq' || _pemx "'jq' is no installed in your system!"
+  # search for query $@ using ddgr and get result in json format
+  ddg_result_json=$(ddgr --num=25 --reg=us-en --json "$@")
+  # parse results with jq and show a menu to let the user choose,
+  # then extract the url from selected line using awk
+  ddg_result_url=$(printf '%s' "${ddg_result_json}" | jq -r '.[]| "\(.title)  --  \(.url)"' \
+                 | _choose | awk '{print $NF}' )
+  # if no result has been selected exit
+  [ -z "$ddg_result_url" ] && exit 0
+  # open selected URL
+  url_handler "$ddg_result_url"
+}
