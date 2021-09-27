@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+nbrowser_bang(){
+  open_video_with "$@"
+}
