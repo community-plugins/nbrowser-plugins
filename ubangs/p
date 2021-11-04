@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+nbrowser_ubang() {
+  open_video_with "$*"
+}
