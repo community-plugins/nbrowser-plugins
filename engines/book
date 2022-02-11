@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+nbrowser_search(){
+  echo "https://www.goodreads.com/search/search?search_type=books&search[query]=$*"
+}

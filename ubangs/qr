@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+nbrowser_ubang() {
+  has 'qrencode' || _pemx "'qrencode' is no installed in your system!"
+  qrencode "$*" -o /tmp/qr -s 20 && sxiv -b /tmp/qr
+  rm /tmp/qr
+}
