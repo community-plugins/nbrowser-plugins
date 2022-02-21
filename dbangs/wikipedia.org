@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+nbrowser_dbang() {
+	wikiless_domain=${wikiless_instance:-https://wikiless.org/}
+	local WikipediaPath=$(expr "$@" : '^https\?://.*\.\?wikipedia\.org/\(.*\)\?$');
+	if [ -z "${WikipediaPath}" ] ; then
+		open_in_browser "$*"
+	else
+		open_in_browser "$wikiless_domain$WikipediaPath"
+	fi
+}
