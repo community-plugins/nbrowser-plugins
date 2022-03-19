@@ -4,8 +4,12 @@ nbrowser_bang(){
   # check if googler installed in your system
   has 'googler' || _pemx "'googler' is no installed in your system!"
   has 'jq' || _pemx "'jq' is no installed in your system!"
-  # search for query $@ using googler and get result in json format
-  ggl_result_json=$(googler --count=25 --json "$@")
+  # if no argument is provided; ask for one ; else set query = argument
+  [ -z "$*" ] && local QUERY=$(_input "Google Search (googler)") || local QUERY="$*"
+  # if query is empty, exit
+  [ -z "$QUERY" ] && exit 0
+  # search for query using googler and get result in json format
+  ggl_result_json=$(googler --count=25 --json "$QUERY")
   # parse results with jq and show a menu to let the user choose,
   # then extract the url from selected line using awk
   ggl_result_url=$(printf '%s' "${ggl_result_json}" | jq -r '.[]| "\(.title)  --  \(.url)"' \
