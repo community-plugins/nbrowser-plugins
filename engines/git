@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+nbrowser_search(){
+  while :; do
+    case $1 in
+      "-topic"|"-topics") shift; local type="&type=topics" ;;
+      "-code") shift; local type="&type=code" ;;
+      "-repo"|"-repos") shift; local type="&type=Repositories" ;;
+      "-user"|"-users") shift; local type="&type=users" ;;
+      "-wiki"|"-wikis") shift; local type="&type=wikis" ;;
+      "-l"|"-lang") shift;local lang="&l=$1";shift ;;
+      *) break;
+    esac
+  done
+  echo "https://github.com/search?q=$*${type:-}${lang:-}"
+}
