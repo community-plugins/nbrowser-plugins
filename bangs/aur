@@ -3,10 +3,15 @@
 # based on : aur-search (MIT License) https://github.com/takiz/aur-search
 
 nbrowser_bang(){
+
+  [ -z "$*" ] && local QUERY=$(_input "AUR Search") || local QUERY="$*"
+
+  [ -z "$QUERY" ] && exit 0
+
   aur_jsondata=$(curl "https://aur.archlinux.org/rpc/" -s \
                        -G --data-urlencode "v=5" \
                        -G --data-urlencode "type=search" \
-                       -G --data-urlencode "arg=$*" \
+                       -G --data-urlencode "arg=$QUERY" \
                        -H "user-agent:Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0" \
                        -H "accept-language:en-US, en;q=0.9" \
                        -H "accept-encoding:gzip" --compressed \

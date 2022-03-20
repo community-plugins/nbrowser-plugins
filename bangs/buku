@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+nbrowser_bang(){
+  # check if buku installed in your system
+  has 'buku' || _pemx "'buku' is no installed in your system!"
+
+  bukulist=$(buku --nc --np -p --tacit | grep -v '^buku: waiting for input (unexpected? try --nostdin)$' | gawk -v max="70" '
+    BEGIN { RS=""; FS="\n" }
+    {
+      id = substr(gensub(/([0-9]+)\.(.*)/, "\\1", "g", $1),0,7)
+      title = substr(gensub(/[0-9]+\.\s*(.*)/, "\\1", "g", $1),0,max)
+      url = substr(gensub(/\s+> (.*)/, "\\1", "g", $2),0,max)
+      if ($3 ~ /^\s+# /)
+        tags = gensub(/\s+# (.*)/, "\\1", "g", $3)
+      else
+        if ($4 ~ /^\s+# /)
+          tags = gensub(/\s+# (.*)/, "\\1", "g", $4)
+        else
+          if ($5 ~ /^\s+# /)
+            tags = gensub(/\s+# (.*)/, "\\1", "g", $5)
+      print id " \t" title "\t" url "\t" tags
+    }
+  ' | column -t -s $'\t')
+
+  buku_indice=$(echo "${bukulist}" | _choose "$*" | awk '{print $1}')
+
+  [ -z "$buku_indice" ] && exit 1
+
+  buku_url=$(buku -p $buku_indice -f 1 -j |grep -v '^buku: waiting for input (unexpected? try --nostdin)$'| jq -r ".uri")
+
+  [ -z "$buku_url" ] && exit 1
+
+  url_handler "$buku_url"
+}

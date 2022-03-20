@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+nbrowser_search(){
+  echo "http://myanimelist.net/manga.php?q=$*"
+}
